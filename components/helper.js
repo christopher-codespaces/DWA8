@@ -60,10 +60,38 @@ export const loadedTracker = (prop) => {
     return booksLoaded;
   };
 
+  /**
+   * Encapsulates the UI-related functionality for updating the button text content
+   * - Separates UI-related functionality from the tracker's logic
+   * - Enhances code maintainability and readability
+   *
+   * @private
+   */
+  const updateButtonContent = () => {
+    let booksLeft = prop.length - BOOKS_PER_PAGE - tracker;
+    let btnText = booksLeft > 0 ? booksLeft : 0;
+    const button = getHtmlElement(".list__remaining", selectors.loadMore);
+    button.textContent = `(${btnText})`;
+    return button;
+  };
+
+  /**
+   * Encapsulates the logic for retrieving the current value of the tracker
+   * - Provides a more descriptive name to enhance code readability and maintainability
+   *
+   * @returns {Number} - Current value of the tracker
+   * @private
+   */
+  const getCurrentValue = () => {
+    return tracker;
+  };
+
   return {
     increase,
-    checker,
-    refValue,
+    checker: updateButtonContent, // Encapsulated UI-related functionality
+    refValue: getCurrentValue, // Encapsulated tracker value retrieval
     loaded,
   };
 };
+
+// I have added two private functions, updateButtonContent and getCurrentValue, which encapsulate the UI-related functionality for updating the button content and the logic for retrieving the current value of the tracker, respectively. These encapsulated functions separate the UI-related functionality and tracker value retrieval from the main logic, improving code maintainability and readability. The public checker method and refValue method now use these encapsulated functions internally.
